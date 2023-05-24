@@ -7,20 +7,20 @@ import java.util.Map;
 
 import static java.lang.System.getenv;
 
-public class UserDao {
+public abstract class UserDao {
 
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Map<String, String> env = getenv();
-        String dbHost = env.get("DB_HOST");
-        String dbUser = env.get("DB_USER");
-        String dbPassword = env.get("DB_PASSWORD");
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(
-                dbHost, dbUser, dbPassword
-        );
-        return conn;
-    }
+    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
+//        Map<String, String> env = getenv();
+//        String dbHost = env.get("DB_HOST");
+//        String dbUser = env.get("DB_USER");
+//        String dbPassword = env.get("DB_PASSWORD");
+//
+//        Class.forName("com.mysql.cj.jdbc.Driver");
+//        Connection conn = DriverManager.getConnection(
+//                dbHost, dbUser, dbPassword
+//        );
+//        return conn;
+//    }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
 
@@ -60,14 +60,14 @@ public class UserDao {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        UserDao userDao = new UserDao();
+        UserDao userDao = new NUserDao();
         User user = new User();
-        user.setId("2");
-        user.setName("두번째");
+        user.setId("3");
+        user.setName("세번째");
         user.setPassword("1234");
         userDao.add(user);
 
-        User selectedUser = userDao.get("2");
+        User selectedUser = userDao.get("3");
         System.out.println(selectedUser.getId());
         System.out.println(selectedUser.getName());
         System.out.println(selectedUser.getPassword());
